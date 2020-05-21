@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,KAAM;EACJ,KAAK,EAAE,GAAG;EACV,WAAW,EAAE,2HACiD;EAC9D,KAAK,EAAE,IAAI",
+"sources": ["cardText.module.scss"],
+"names": [],
+"file": "cardText.module.css"
+}

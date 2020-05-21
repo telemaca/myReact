@@ -1,0 +1,7 @@
+@mixin color($color-type) {
+  color: getColor($color-type);
+}
+
+@mixin background-color($color-type) {
+  background-color: getColor($color-type);
+}

@@ -1,0 +1,6 @@
+@function getRadius($radius) {
+  @if not map-has-key($border-radius, $radius) {
+    @error "Esa variable de border-radius no existe.";
+  }
+  @return map-get($border-radius, $radius);
+}

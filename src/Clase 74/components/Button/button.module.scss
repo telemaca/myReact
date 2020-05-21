@@ -1,0 +1,43 @@
+@import "Clase 74/styles/main.scss";
+
+.btn {
+  &-error {
+    @include background-color(error);
+  }
+
+  &-primary {
+    @include background-color(primary);
+  }
+
+  &-default {
+    @include background-color(default);
+  }
+
+  &-success {
+    @include background-color(success);
+  }
+
+  &-info {
+    @include background-color(info);
+  }
+}
+
+//ROUNDED
+
+.rounded {
+  &-none {
+    @include radius(none);
+  }
+
+  &-s {
+    @include radius(s);
+  }
+
+  &-md {
+    @include radius(md);
+  }
+
+  &-l {
+    @include radius(l);
+  }
+}

@@ -1,0 +1,6 @@
+@function getColor($color-type) {
+  @if not map-has-key($colors, $color-type) {
+    @error "Esa variable de color no existe.";
+  }
+  @return map-get($colors, $color-type);
+}

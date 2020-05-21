@@ -1,0 +1,6 @@
+@function getSize($size) {
+  @if not map-has-key($text, $size) {
+    @error "Esa variable de tamaño no existe.";
+  }
+  @return map-get($text, $size);
+}

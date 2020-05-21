@@ -1,0 +1,43 @@
+@import "Clase 74/styles/main.scss";
+
+// TAMAÑOS
+.size-xs {
+  @include size(xs);
+}
+
+.size-s {
+  @include size(s);
+}
+
+.size-md {
+  @include size(md);
+}
+
+.size-l {
+  @include size(l);
+}
+
+.size-xl {
+  @include size(xl);
+}
+
+// COLORES
+.color-error {
+  @include color(error);
+}
+
+.color-primary {
+  @include color(primary);
+}
+
+.color-default {
+  @include color(default);
+}
+
+.color-success {
+  @include color(success);
+}
+
+.color-info {
+  @include color(info);
+}

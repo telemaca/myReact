@@ -1,0 +1,55 @@
+@import "Clase 74/styles/main.scss";
+
+.text {
+  &-left {
+    text-align: left;
+  }
+
+  &-center {
+    text-align: center;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+  &-xs {
+    @include size(xs);
+  }
+
+  &-s {
+    @include size(s);
+  }
+
+  &-md {
+    @include size(md);
+  }
+
+  &-l {
+    @include size(l);
+  }
+
+  &-xl {
+    @include size(xl);
+  }
+
+  &-error {
+    @include color(error);
+  }
+
+  &primary {
+    @include color(primary);
+  }
+
+  &-default {
+    @include color(default);
+  }
+
+  &-success {
+    @include color(success);
+  }
+
+  &-info {
+    @include color(info);
+  }
+}

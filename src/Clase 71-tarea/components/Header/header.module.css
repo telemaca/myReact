@@ -1,0 +1,22 @@
+.icon {
+  position: absolute;
+  top: 15px;
+  left: 40px; }
+
+.wrapper {
+  display: flex;
+  position: relative; }
+
+.name {
+  width: 15%;
+  display: flex; }
+
+.searchbar {
+  width: 800px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  padding-left: 30px;
+  margin-left: 30px; }
+
+/*# sourceMappingURL=header.module.css.map */
