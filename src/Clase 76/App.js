@@ -205,10 +205,79 @@ const EditableList = () => {
   );
 };
 
+// Crear un componente ## ScoreBoard que renderice un input y una lista de PlayerScore que
+
+// al escribir algo en el input y apretar "enter", agregue un nuevo PlayerScore a la lista
+// si el input está vacío, no debe agregar nada
+// cuando se apreta "enter", el input debe vaciarse
+// PlayerScore contiene la prop player que toma un string, y se llena con el valor ingresado en el input
+// PlayerScore renderiza un elemento p para mostrar el nombre (contenido en la prop player), un elemento p para mostrar el puntaje (que comienza en 0) y dos botones, uno para incrementar el puntaje y otro para disminuirlo
+// Ejemplo
+
+// [Ingrese un nuevo nombre...]
+
+// Jeff    100 puntos    [+][-]
+// Britta  50 puntos     [+][-]
+// Abed    500 puntos    [+][-]
+// Troy    200 puntos    [+][-]
+// Annie   250 puntos    [+][-]
+// Shirley 400 puntos    [+][-]
+// Pierce  20 puntos     [+][-]
+
+const PlayerScore = ({ player }) => {
+  const [score, setScore] = useState(0);
+
+  const changeScore = (operation) => {
+    operation === "add" ? setScore(score + 1) : setScore(score - 1);
+  };
+
+  return (
+    <li
+      style={{ display: "flex", width: 300, justifyContent: "space-between" }}
+    >
+      <p style={{ margin: 0 }}>{player}</p>
+      <p style={{ margin: 0 }}>{score} puntos</p>
+      <div>
+        <button onClick={() => changeScore("add")}>+</button>
+        <button onClick={() => changeScore()}>-</button>
+      </div>
+    </li>
+  );
+};
+
+const ScoreBoard = () => {
+  const [name, setName] = useState("");
+  const [players, setPlayers] = useState([]);
+
+  const updateNewPlayer = (event) => setName(event.target.value);
+
+  const handleKeyPress = (event) => {
+    if (event.charCode === 13) {
+      setPlayers([...players, name]);
+      event.target.value = "";
+    }
+  };
+
+  return (
+    <>
+      <input
+        placeholder="Ingrese un nuevo nombre..."
+        onChange={updateNewPlayer}
+        onKeyPress={handleKeyPress}
+      ></input>
+      <ul>
+        {players.map((player) => (
+          <PlayerScore player={player} />
+        ))}
+      </ul>
+    </>
+  );
+};
+
 function App() {
   return (
     <div className="App">
-      <EditableList />
+      <ScoreBoard />
     </div>
   );
 }
