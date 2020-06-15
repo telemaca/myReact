@@ -154,6 +154,7 @@ const EditableText = ({ defaultValue }) => {
     </p>
   ) : (
     <input
+      value={newText}
       placeholder={newText}
       onChange={updateText}
       onKeyPress={handleKeyPress}
@@ -277,7 +278,7 @@ const ScoreBoard = () => {
 function App() {
   return (
     <div className="App">
-      <ScoreBoard />
+      <SearchList items={palabras} />
     </div>
   );
 }

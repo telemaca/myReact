@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "Clase 76/App";
+import App from "Clase 83-contexto/App";
 // import "./Clase 74/styles/main.scss";
 // import * as serviceWorker from './serviceWorker';
 
