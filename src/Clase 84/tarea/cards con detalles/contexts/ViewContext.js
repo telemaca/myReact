@@ -4,22 +4,11 @@ const ViewContext = createContext();
 
 const ViewProvider = ({ children }) => {
   const [userDetailsShown, setUserDetailsShown] = useState(false);
-  const [btnText, setBtnText] = useState("Mostrar detalles");
 
-  const handleBtnText = () => {
-    const newBtnText = userDetailsShown
-      ? "Mostrar detalles"
-      : "Mostrar resumen";
-    setBtnText(newBtnText);
-  };
-
-  const handleUserDetails = () =>
-    setUserDetailsShown(userDetailsShown ? false : true);
+  const updateUserDetails = () => setUserDetailsShown(!userDetailsShown);
 
   return (
-    <ViewContext.Provider
-      value={{ userDetailsShown, handleUserDetails, btnText, handleBtnText }}
-    >
+    <ViewContext.Provider value={{ userDetailsShown, updateUserDetails }}>
       {children}
     </ViewContext.Provider>
   );

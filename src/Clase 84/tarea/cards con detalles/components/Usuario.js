@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import useViewContext from "../contexts/ViewContext";
 
-const SmallUserCard = styled.li`
+const StyledUsuario = styled.li`
   background-color: #0c7c59;
   color: #ebf5ee;
   width: 250px;
@@ -15,7 +15,7 @@ const SmallUserCard = styled.li`
 const Usuario = ({ name, lastname, company, age, email, phone, address }) => {
   const { userDetailsShown } = useViewContext();
   return (
-    <SmallUserCard>
+    <StyledUsuario>
       <h2>{name + " " + lastname}</h2>
       <p>EMPRESA: {company}</p>
       {userDetailsShown && (
@@ -26,7 +26,7 @@ const Usuario = ({ name, lastname, company, age, email, phone, address }) => {
           <p>Dirección: {address}</p>
         </>
       )}
-    </SmallUserCard>
+    </StyledUsuario>
   );
 };
 
