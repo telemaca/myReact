@@ -1,11 +1,13 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
 
-import { VisualizationProvider } from "./contexts/VisualizationContext";
+import { AppProvider } from "./contexts/AppContext";
+
 import Header from "./components/Header";
 
 import VisualizationControl from "./components/VisualizationControl";
 import CharacterCardVisualControl from "./components/CharacterCardVisualControl";
+import EpisodeCardControl from "./components/EpisodeCardControl";
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -16,12 +18,13 @@ body {
 
 const App = () => {
   return (
-    <VisualizationProvider>
+    <AppProvider>
       <GlobalStyle />
       <Header />
       <VisualizationControl />
       <CharacterCardVisualControl />
-    </VisualizationProvider>
+      <EpisodeCardControl />
+    </AppProvider>
   );
 };
 

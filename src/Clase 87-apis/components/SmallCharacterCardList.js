@@ -2,6 +2,9 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { Circle } from "@styled-icons/boxicons-solid/Circle";
 
+// import useEpisodesContext from "../contexts/EpisodesContext";
+// import SmallCharacterCard from "./SmallCharacterCard";
+
 const STATUS_COLOR = {
   Alive: "rgb(65, 194, 114)",
   Dead: "rgb(221, 78, 78)",
@@ -9,8 +12,7 @@ const STATUS_COLOR = {
 };
 
 const StatusIcon = styled(Circle)`
-  width: 15px;
-  height: 15px;
+  width: 10px;
   margin-left: 7px;
   color: ${(props) => STATUS_COLOR[props.color]};
 `;
@@ -22,8 +24,8 @@ const cardText = css`
 
 const StyledCard = styled.article`
   background-color: rgba(250, 250, 250, 0.15);
-  width: 550px;
-  height: 200px;
+  width: 250px;
+  height: 100px;
   display: flex;
   align-items: center;
   margin: 20px;
@@ -37,17 +39,17 @@ const StyledCard = styled.article`
 `;
 
 const Container = styled.div`
-  padding-left: 30px;
+  padding: 0 20px;
 `;
 
 const StyledImg = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
 `;
 
 const Title = styled.h2`
   font-family: "Pangolin";
-  font-size: 36px;
+  font-size: 18px;
   color: #fafafa;
   margin: 0;
   cursor: pointer;
@@ -60,41 +62,33 @@ const Title = styled.h2`
 const StatusText = styled.p`
   ${cardText}
   margin: 0 0 25px 0;
-  font-size: 17px;
+  font-size: 12px;
 `;
 
-const Text = styled.p`
-  font-size: 13px;
-  font-weight: 800;
-  ${cardText}
+const List = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
-const Location = styled.p`
-  font-size: 13px;
-  ${cardText}
-  cursor: pointer;
-
-  &:hover {
-    color: rgb(255, 167, 2);
-  }
-`;
-
-const Card = ({ data, onUpdateSelectedCharacter }) => {
-  const { name, image, status, location } = data;
+const SmallCharacterCardList = ({ characters }) => {
   return (
-    <StyledCard>
-      <StyledImg src={image} alt="" />
-      <Container>
-        <Title onClick={onUpdateSelectedCharacter}>{name}</Title>
-        <StatusText>
-          {status}
-          <StatusIcon color={status} />
-        </StatusText>
-        <Text>LAST SEEN:</Text>
-        <Location>{location.name}</Location>
-      </Container>
-    </StyledCard>
+    <List>
+      {characters.map((character) => (
+        // <SmallCharacterCard data={character} key={character.id} />
+        <StyledCard key={character.id}>
+          <StyledImg src={character.image} alt="" />
+          <Container>
+            <Title>{character.name}</Title>
+            <StatusText>
+              <i>{character.status}</i>
+              <StatusIcon color={character.status} />
+            </StatusText>
+          </Container>
+        </StyledCard>
+      ))}
+    </List>
   );
 };
 
-export default Card;
+export default SmallCharacterCardList;

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { Home } from "@styled-icons/fa-solid/Home";
 
-import useVisualizationContext from "../contexts/VisualizationContext";
+import useCharacterContext from "../contexts/CharacterContext";
+import useEpisodesContext from "../contexts/EpisodesContext";
 import CharacterCard from "./CharacterCard";
 
 const Container = styled.div`
@@ -11,12 +13,24 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+const HomeIcon = styled(Home)`
+  width: 40px;
+  height: 40px;
+  color: #fafafa;
+  position: absolute;
+  cursor: pointer;
+  top: 200px;
+  left: 50px;
+`;
+
 const CharacterCardVisualControl = () => {
   const {
     selectedCharacter,
     isCharacterSelected,
-    episodes,
-  } = useVisualizationContext();
+    toggleIsCharacterSelected,
+  } = useCharacterContext();
+
+  const { episodes } = useEpisodesContext();
 
   const [episodesData, setEpisodesData] = useState([]);
 
@@ -26,28 +40,21 @@ const CharacterCardVisualControl = () => {
     axios
       .get(`https://rickandmortyapi.com/api/episode/${episodesIds}`)
       .then((response) => {
-        setEpisodesData(response.data);
+        const dataArray =
+          episodesIds.length === 1
+            ? Array(1).fill(response.data)
+            : response.data;
+        setEpisodesData(dataArray);
       });
-  }, [selectedCharacter]);
-
-  console.log(episodesData);
+  }, [episodes]);
 
   return (
-    <Container>
-      {isCharacterSelected && (
-        <CharacterCard
-          imgUrl={selectedCharacter.image}
-          name={selectedCharacter.name}
-          status={selectedCharacter.status}
-          species={selectedCharacter.species}
-          gender={selectedCharacter.gender}
-          type={selectedCharacter.type}
-          origin={selectedCharacter.origin.name}
-          location={selectedCharacter.location.name}
-          episode={selectedCharacter.episode}
-        />
-      )}
-    </Container>
+    isCharacterSelected && (
+      <Container>
+        <HomeIcon onClick={toggleIsCharacterSelected} />
+        <CharacterCard data={selectedCharacter} episodes={episodesData} />
+      </Container>
+    )
   );
 };
 

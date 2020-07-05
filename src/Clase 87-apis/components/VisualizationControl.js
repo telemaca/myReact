@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-import useVisualizationContext from "../contexts/VisualizationContext";
+import useCharacterContext from "../contexts/CharacterContext";
+import usePaginationContext from "../contexts/PaginationContext";
+import useFiltersContext from "../contexts/FiltersContext";
+import useEpisodesContext from "../contexts/EpisodesContext";
+
 import Card from "./Card";
 import Aside from "./Aside";
 import Pagination from "./Pagination";
@@ -16,20 +20,19 @@ const Container = styled.div`
 const VisualizationControl = () => {
   const {
     characters,
-    setCharacters,
-    setPages,
-    currentPage,
-    statusFilter,
-    speciesFilter,
-    genderFilter,
+    updateCharacters,
     isCharacterSelected,
-    setIsCharacterSelected,
-    setSelectedCharacter,
-    selectedCharacter,
-    selectedID,
-    setSelectedID,
-    setEpisodes,
-  } = useVisualizationContext();
+    toggleIsCharacterSelected,
+    updateSelectedCharacter,
+    selectedCharacterId,
+    updateCharacterId,
+  } = useCharacterContext();
+
+  const { statusFilter, speciesFilter, genderFilter } = useFiltersContext();
+
+  const { currentPage, updatePageAmount } = usePaginationContext();
+
+  const { updateEpisodes, isEpisodeSelected } = useEpisodesContext();
 
   useEffect(() => {
     axios
@@ -37,38 +40,35 @@ const VisualizationControl = () => {
         `https://rickandmortyapi.com/api/character/?page=${currentPage}&status=${statusFilter}&species=${speciesFilter}&gender=${genderFilter}`
       )
       .then((response) => {
-        setCharacters(response.data.results);
-        setPages(response.data.info.pages);
+        updateCharacters(response.data.results);
+        updatePageAmount(response.data.info.pages);
       });
   }, [currentPage, statusFilter, speciesFilter, genderFilter]);
 
   useEffect(() => {
     axios
-      .get(`https://rickandmortyapi.com/api/character/${selectedID}`)
+      .get(`https://rickandmortyapi.com/api/character/${selectedCharacterId}`)
       .then((response) => {
-        setSelectedCharacter(response.data);
-        setEpisodes(response.data.episode);
+        updateSelectedCharacter(response.data);
+        updateEpisodes(response.data.episode);
       });
-  }, [selectedID]);
+  }, [selectedCharacterId]);
 
   const handleClickSelectedCharacter = (id) => {
-    setIsCharacterSelected(true);
-    setSelectedID(id);
+    toggleIsCharacterSelected();
+    updateCharacterId(id);
   };
 
   return (
     <>
-      {!isCharacterSelected && (
+      {!isCharacterSelected && !isEpisodeSelected && (
         <>
           <Aside />
           <Pagination />
           <Container>
             {characters.map((character) => (
               <Card
-                charName={character.name}
-                url={character.image}
-                status={character.status}
-                location={character.location.name}
+                data={character}
                 key={character.id}
                 onUpdateSelectedCharacter={() =>
                   handleClickSelectedCharacter(character.id)

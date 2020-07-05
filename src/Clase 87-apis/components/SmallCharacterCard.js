@@ -22,8 +22,8 @@ const cardText = css`
 
 const StyledCard = styled.article`
   background-color: rgba(250, 250, 250, 0.15);
-  width: 550px;
-  height: 200px;
+  width: 250px;
+  height: 100px;
   display: flex;
   align-items: center;
   margin: 20px;
@@ -41,8 +41,8 @@ const Container = styled.div`
 `;
 
 const StyledImg = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
 `;
 
 const Title = styled.h2`
@@ -63,24 +63,24 @@ const StatusText = styled.p`
   font-size: 17px;
 `;
 
-const Text = styled.p`
-  font-size: 13px;
-  font-weight: 800;
-  ${cardText}
-`;
+// const Text = styled.p`
+//   font-size: 13px;
+//   font-weight: 800;
+//   ${cardText}
+// `;
 
-const Location = styled.p`
-  font-size: 13px;
-  ${cardText}
-  cursor: pointer;
+// const Location = styled.p`
+//   font-size: 13px;
+//   ${cardText}
+//   cursor: pointer;
 
-  &:hover {
-    color: rgb(255, 167, 2);
-  }
-`;
+//   &:hover {
+//     color: rgb(255, 167, 2);
+//   }
+// `;
 
-const Card = ({ data, onUpdateSelectedCharacter }) => {
-  const { name, image, status, location } = data;
+const SmallCharacterCard = ({ data, onUpdateSelectedCharacter }) => {
+  const { name, image, status } = data;
   return (
     <StyledCard>
       <StyledImg src={image} alt="" />
@@ -90,11 +90,9 @@ const Card = ({ data, onUpdateSelectedCharacter }) => {
           {status}
           <StatusIcon color={status} />
         </StatusText>
-        <Text>LAST SEEN:</Text>
-        <Location>{location.name}</Location>
       </Container>
     </StyledCard>
   );
 };
 
-export default Card;
+export default SmallCharacterCard;

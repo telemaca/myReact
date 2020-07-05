@@ -1,5 +1,20 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { Circle } from "@styled-icons/boxicons-solid/Circle";
+import EpisodesList from "./EpisodesList";
+
+const STATUS_COLOR = {
+  Alive: "rgb(65, 194, 114)",
+  Dead: "rgb(221, 78, 78)",
+  unknown: "rgb(122, 113, 199)",
+};
+
+const StatusIcon = styled(Circle)`
+  width: 20px;
+  height: 20px;
+  margin-left: 7px;
+  color: ${(props) => STATUS_COLOR[props.color]};
+`;
 
 const simpleText = css`
   color: #fafafa;
@@ -64,13 +79,6 @@ const StatusText = styled.p`
   margin: 25px 0 0 0;
 `;
 
-const List = styled.ul`
-  list-style: none;
-  font-family: "Roboto Mono";
-  font-size: 15px;
-  color: #fafafa;
-`;
-
 const Clickable = styled.span`
   &:hover {
     color: orange;
@@ -78,26 +86,18 @@ const Clickable = styled.span`
   }
 `;
 
-const CharacterCard = ({
-  imgUrl,
-  name,
-  status,
-  species,
-  gender,
-  type,
-  origin,
-  location,
-  episode,
-  children,
-}) => {
+const CharacterCard = ({ data, episodes }) => {
+  const { image, name, status, species, gender, type, origin, location } = data;
+
   return (
     <StyledArticle>
       <TopContainer>
-        <StyledImg src={imgUrl} />
+        <StyledImg src={image} />
         <InnerContainer>
           <Title>{name}</Title>
           <StatusText>
             <i>{status}</i>
+            <StatusIcon color={status} />
           </StatusText>
         </InnerContainer>
       </TopContainer>
@@ -112,22 +112,16 @@ const CharacterCard = ({
           <b>Type:</b> {type}
         </Text>
         <Text>
-          <b>Planet of Origin:</b> <Clickable>{origin}</Clickable>
+          <b>Planet of Origin:</b> <Clickable>{origin.name}</Clickable>
         </Text>
         <Text>
           <b>Last Known Location: </b>
-          <Clickable>{location}</Clickable>
+          <Clickable>{location.name}</Clickable>
         </Text>
         <Text>
           <b>Episodes:</b>
         </Text>
-        <List>
-          {episode.map((episode) => (
-            <li>
-              <Clickable>{`${episode.name} - ${episode.episode}`}</Clickable>
-            </li>
-          ))}
-        </List>
+        <EpisodesList episodes={episodes} />
       </BottomContainer>
     </StyledArticle>
   );

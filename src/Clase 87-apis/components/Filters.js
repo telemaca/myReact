@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import useVisualizationContext from "../contexts/VisualizationContext";
+import usePaginationContext from "../contexts/PaginationContext";
+import useFiltersContext from "../contexts/FiltersContext";
 
 const StyledFilter = styled.select`
   width: 150px;
@@ -19,26 +20,23 @@ const StyledLabel = styled.label`
 `;
 
 const Filters = () => {
-  const {
-    setCurrentPage,
-    setStatusFilter,
-    setSpeciesFilter,
-    setGenderFilter,
-  } = useVisualizationContext();
+  const { showByStatus, showBySpecies, showByGender } = useFiltersContext();
+
+  const { updateCurrentPage } = usePaginationContext();
 
   const handleStatusChange = (event) => {
-    setStatusFilter(event.target.value);
-    setCurrentPage(1);
+    showByStatus(event.target.value);
+    updateCurrentPage(1);
   };
 
   const handleSpeciesChange = (event) => {
-    setSpeciesFilter(event.target.value);
-    setCurrentPage(1);
+    showBySpecies(event.target.value);
+    updateCurrentPage(1);
   };
 
   const handleGenderChange = (event) => {
-    setGenderFilter(event.target.value);
-    setCurrentPage(1);
+    showByGender(event.target.value);
+    updateCurrentPage(1);
   };
 
   return (
