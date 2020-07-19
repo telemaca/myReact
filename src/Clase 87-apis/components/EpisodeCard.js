@@ -1,6 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styled, { css } from "styled-components";
+import { Home } from "@styled-icons/fa-solid/Home";
+
+import useCharacterContext from "../contexts/CharacterContext";
+import useEpisodesContext from "../contexts/EpisodesContext";
 import SmallCharacterCardList from "./SmallCharacterCardList";
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HomeIcon = styled(Home)`
+  width: 40px;
+  height: 40px;
+  color: #fafafa;
+  position: absolute;
+  cursor: pointer;
+  top: 200px;
+  left: 50px;
+`;
 
 const simpleText = css`
   color: #fafafa;
@@ -35,24 +56,64 @@ const Text = styled.p`
   padding-left: 80px;
 `;
 
-const CharacterCard = ({ data, characters }) => {
-  const { name, air_date, episode } = data;
+const EpisodeCard = () => {
+  const { isCharacterSelected } = useCharacterContext();
+
+  const {
+    singleEpisodeData,
+    toggleIsEpisodeSelected,
+    isEpisodeSelected,
+    episodeCharacters,
+    episodeId,
+    updateEpisodeCharacters,
+    updateSingleEpisodeData,
+  } = useEpisodesContext();
+
+  const [charactersData, setCharactersData] = useState([]);
+
+  const charactersIds = episodeCharacters.map((character) =>
+    character.split("/").pop()
+  );
+
+  useEffect(() => {
+    axios
+      .get(`https://rickandmortyapi.com/api/episode/${episodeId}`)
+      .then((response) => {
+        updateSingleEpisodeData(response.data);
+        updateEpisodeCharacters(response.data.characters);
+      });
+  }, [episodeId]);
+
+  useEffect(() => {
+    axios
+      .get(`https://rickandmortyapi.com/api/character/${charactersIds}`)
+      .then((response) => {
+        setCharactersData(response.data);
+      });
+  }, [episodeCharacters]);
 
   return (
-    <StyledArticle>
-      <Title>{name}</Title>
-      <Text>
-        <b>Episode:</b> {episode}
-      </Text>
-      <Text>
-        <b>Air Date:</b> {air_date}
-      </Text>
-      <Text>
-        <b>Characters:</b>
-      </Text>
-      <SmallCharacterCardList characters={characters} />
-    </StyledArticle>
+    isEpisodeSelected &&
+    !isCharacterSelected && (
+      <Container>
+        <HomeIcon onClick={toggleIsEpisodeSelected} />
+        {/* <EpisodeCard data={singleEpisodeData} characters={charactersData} /> */}
+        <StyledArticle>
+          <Title>{singleEpisodeData.name}</Title>
+          <Text>
+            <b>Episode:</b> {singleEpisodeData.episode}
+          </Text>
+          <Text>
+            <b>Air Date:</b> {singleEpisodeData.air_date}
+          </Text>
+          <Text>
+            <b>Characters:</b>
+          </Text>
+          <SmallCharacterCardList characters={charactersData} />
+        </StyledArticle>
+      </Container>
+    )
   );
 };
 
-export default CharacterCard;
+export default EpisodeCard;

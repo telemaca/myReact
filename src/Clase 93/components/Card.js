@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
 import { Circle } from "@styled-icons/boxicons-solid/Circle";
 
 const STATUS_COLOR = {
@@ -22,8 +23,8 @@ const cardText = css`
 
 const StyledCard = styled.article`
   background-color: rgba(250, 250, 250, 0.15);
-  width: 250px;
-  height: 100px;
+  width: 550px;
+  height: 200px;
   display: flex;
   align-items: center;
   margin: 20px;
@@ -41,8 +42,8 @@ const Container = styled.div`
 `;
 
 const StyledImg = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
 `;
 
 const Title = styled.h2`
@@ -63,36 +64,38 @@ const StatusText = styled.p`
   font-size: 17px;
 `;
 
-// const Text = styled.p`
-//   font-size: 13px;
-//   font-weight: 800;
-//   ${cardText}
-// `;
+const Text = styled.p`
+  font-size: 13px;
+  font-weight: 800;
+  ${cardText}
+`;
 
-// const Location = styled.p`
-//   font-size: 13px;
-//   ${cardText}
-//   cursor: pointer;
+const Location = styled.p`
+  font-size: 13px;
+  ${cardText}
+  cursor: pointer;
 
-//   &:hover {
-//     color: rgb(255, 167, 2);
-//   }
-// `;
+  &:hover {
+    color: rgb(255, 167, 2);
+  }
+`;
 
-const SmallCharacterCard = ({ data, onUpdateSelectedCharacter }) => {
-  const { name, image, status } = data;
+const Card = ({ data, onCharacterClick }) => {
+  const { name, image, status, location } = data;
   return (
     <StyledCard>
       <StyledImg src={image} alt="" />
       <Container>
-        <Title onClick={onUpdateSelectedCharacter}>{name}</Title>
+        <Title onClick={onCharacterClick}>{name}</Title>
         <StatusText>
           {status}
           <StatusIcon color={status} />
         </StatusText>
+        <Text>LAST SEEN:</Text>
+        <Location>{location.name}</Location>
       </Container>
     </StyledCard>
   );
 };
 
-export default SmallCharacterCard;
+export default Card;

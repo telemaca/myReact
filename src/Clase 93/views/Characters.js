@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import useCharacterContext from "../contexts/CharacterContext";
@@ -7,10 +8,10 @@ import usePaginationContext from "../contexts/PaginationContext";
 import useFiltersContext from "../contexts/FiltersContext";
 import useEpisodesContext from "../contexts/EpisodesContext";
 
-import Card from "./Card";
-import Aside from "./Aside";
-import Filters from "./Filters";
-import Pagination from "./Pagination";
+import Card from "../components/Card";
+import Aside from "../components/Aside";
+import Filters from "../components/Filters";
+import Pagination from "../components/Pagination";
 
 const Container = styled.div`
   display: flex;
@@ -18,14 +19,15 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const VisualizationControl = () => {
+const CharactersPage = () => {
+  const history = useHistory();
+
   const {
     characters,
     updateCharacters,
     isCharacterSelected,
     toggleIsCharacterSelected,
-    updateSelectedCharacter,
-    selectedCharacterId,
+
     updateCharacterId,
   } = useCharacterContext();
 
@@ -46,18 +48,13 @@ const VisualizationControl = () => {
       });
   }, [currentPage, statusFilter, speciesFilter, genderFilter]);
 
-  useEffect(() => {
-    axios
-      .get(`https://rickandmortyapi.com/api/character/${selectedCharacterId}`)
-      .then((response) => {
-        updateSelectedCharacter(response.data);
-        updateEpisodes(response.data.episode);
-      });
-  }, [selectedCharacterId]);
-
   const handleClickSelectedCharacter = (id) => {
-    toggleIsCharacterSelected();
+    toggleIsCharacterSelected(!isCharacterSelected);
     updateCharacterId(id);
+  };
+
+  const handleCharacterClick = (id) => {
+    history.push(`/character/${id}`);
   };
 
   return (
@@ -73,9 +70,7 @@ const VisualizationControl = () => {
               <Card
                 data={character}
                 key={character.id}
-                onUpdateSelectedCharacter={() =>
-                  handleClickSelectedCharacter(character.id)
-                }
+                onCharacterClick={() => handleCharacterClick(character.id)}
               />
             ))}
           </Container>
@@ -85,4 +80,4 @@ const VisualizationControl = () => {
   );
 };
 
-export default VisualizationControl;
+export default CharactersPage;

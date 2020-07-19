@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled, { css } from "styled-components";
 import { Home } from "@styled-icons/fa-solid/Home";
@@ -7,7 +8,7 @@ import { Circle } from "@styled-icons/boxicons-solid/Circle";
 import useCharacterContext from "../contexts/CharacterContext";
 import useEpisodesContext from "../contexts/EpisodesContext";
 // import CharacterCard from "./CharacterCard";
-import EpisodesList from "./EpisodesList";
+import EpisodesList from "../components/EpisodesList";
 
 const Container = styled.div`
   display: flex;
@@ -108,18 +109,31 @@ const Clickable = styled.span`
   }
 `;
 
-const CharacterCard = () => {
+const Character = () => {
+  const { characterId } = useParams();
+
   const {
     selectedCharacter,
     isCharacterSelected,
     toggleIsCharacterSelected,
+    updateSelectedCharacter,
+    selectedCharacterId,
   } = useCharacterContext();
 
-  const { episodes } = useEpisodesContext();
+  const { episodes, updateEpisodes } = useEpisodesContext();
 
   const [episodesData, setEpisodesData] = useState([]);
 
   const episodesIds = episodes.map((episode) => episode.split("/").pop());
+
+  useEffect(() => {
+    axios
+      .get(`https://rickandmortyapi.com/api/character/${characterId}`)
+      .then((response) => {
+        updateSelectedCharacter(response.data);
+        updateEpisodes(response.data.episode);
+      });
+  }, [characterId]);
 
   useEffect(() => {
     axios
@@ -178,4 +192,4 @@ const CharacterCard = () => {
   );
 };
 
-export default CharacterCard;
+export default Character;
